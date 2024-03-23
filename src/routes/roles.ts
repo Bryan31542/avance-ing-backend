@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { usersGet } from '../controllers/users'
+import { roleGet } from '../controllers/roles'
 
 const router = Router()
 
-router.get('/', usersGet)
+// Get All Roles
+router.get('/', roleGet)
 
 export default router

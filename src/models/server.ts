@@ -6,11 +6,13 @@ class Server {
   public app: Application
   public port: number | undefined
   public usersPath: string
+  public rolesPath: string
 
   constructor () {
     this.app = express()
     this.port = Number(process.env.PORT)
     this.usersPath = '/api/users'
+    this.rolesPath = '/api/roles'
 
     // Middlewares
     this.middlewares()
@@ -32,6 +34,7 @@ class Server {
 
   private routes (): void {
     this.app.use(this.usersPath, userRoute.default)
+    this.app.use(this.rolesPath, userRoute.default)
   }
 
   public listen (): void {
