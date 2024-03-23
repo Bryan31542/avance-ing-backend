@@ -1,6 +1,7 @@
 import express, { Application } from 'express'
 import cors from 'cors'
 import * as userRoute from '../routes/users'
+import * as roleRoute from '../routes/roles'
 
 class Server {
   public app: Application
@@ -34,7 +35,7 @@ class Server {
 
   private routes (): void {
     this.app.use(this.usersPath, userRoute.default)
-    this.app.use(this.rolesPath, userRoute.default)
+    this.app.use(this.rolesPath, roleRoute.default)
   }
 
   public listen (): void {
