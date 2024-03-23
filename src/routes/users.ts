@@ -1,11 +1,12 @@
-import express from 'express'
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { Router } from 'express'
+import { prisma } from '../../prisma/db'
 
-const router = express.Router()
+const router = Router()
 
-router.get('/', (_req, res) => {
-  res.json({
-    message: 'get API - controller'
-  })
+router.get('/', async (_req, res) => {
+  const users = await prisma.user.findMany()
+  res.json(users)
 })
 
 export default router
