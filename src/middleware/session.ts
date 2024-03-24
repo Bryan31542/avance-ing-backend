@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { NextFunction, Request, Response } from 'express'
 import { verifyToken } from '../utils/jwt.util'
+import { decryptToken } from '../utils/crypto.util'
 
 export const checkSession = (
   req: Request,
@@ -11,9 +12,14 @@ export const checkSession = (
     const jwtUser = req.headers.authorization ?? ''
     const jwt = jwtUser.split(' ').pop() ?? ''
 
-    const checkToken = verifyToken(jwt)
+    const token = req.cookies.token
 
-    if (!checkToken) {
+    const decryptedToken = decryptToken(token)
+
+    const checkToken = verifyToken(jwt)
+    const checkTokenCookie = verifyToken(decryptedToken)
+
+    if (!checkToken || !checkTokenCookie) {
       return res.status(401).json({ error: 'Unauthorized' })
     }
 

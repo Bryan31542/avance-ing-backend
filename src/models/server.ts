@@ -1,5 +1,6 @@
 import express, { Application } from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import * as userRoute from '../routes/users.routes'
 import * as roleRoute from '../routes/roles.routes'
 import * as authRoute from '../routes/auth.routes'
@@ -31,6 +32,9 @@ class Server {
 
     // Parse and read body
     this.app.use(express.json())
+
+    // Cookie parser
+    this.app.use(cookieParser())
 
     // Public directory
     this.app.use(express.static('public'))
