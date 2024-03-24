@@ -6,7 +6,7 @@ export const getUsers = async (
   skip: number,
   take: number
 ): Promise<UserNonSensitive[]> => {
-  const validSkip = skip > 0 ? skip : 1
+  const validSkip = skip > 0 ? skip : 0
   const validTake = take > 0 ? take : 10
   const users = await prisma.user.findMany({
     include: { role: true },
