@@ -1,4 +1,4 @@
-import { RoleName } from '../types/role.enum'
+import { Role } from './role.interface'
 
 export interface User {
   id: string
@@ -7,9 +7,9 @@ export interface User {
   email: string
   password: string
   roleId: string
-  role: RoleName
+  role: Role
 }
 
 export type UserWithoutId = Omit<User, 'id'>
 export type NewUser = Omit<User, 'id' | 'role'>
-export type UserNonSensitive = Omit<User, 'password'> & { role: RoleName }
+export type UserNonSensitive = Omit<User, 'password' | 'roleId'>
