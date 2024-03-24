@@ -7,8 +7,8 @@ export const login = async (
 ): Promise<Response> => {
   try {
     const { username, password } = body
-    const responseUser = await loginService({ username, password })
-    return res.json(responseUser)
+    const response = await loginService({ username, password })
+    return res.json(response)
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: 'Something went wrong' })

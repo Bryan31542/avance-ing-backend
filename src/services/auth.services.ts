@@ -1,15 +1,17 @@
 import { prisma } from '../../prisma/db'
 import { Auth } from '../interfaces/auth.interface'
-import { UserNonSensitive } from '../interfaces/user.interface'
+import { UserWithToken } from '../interfaces/user.interface'
 import { verify } from '../utils/bcrypt.util'
+import { signToken } from '../utils/jwt.util'
 
 export const loginService = async ({
   username,
   password
-}: Auth): Promise<UserNonSensitive> => {
+}: Auth): Promise<UserWithToken> => {
   // check if the user with the specified email already exists
   const existingUser = await prisma.user.findUnique({
-    where: { username }
+    where: { username },
+    include: { role: true }
   })
 
   if (existingUser === null) throw new Error('User not found')
@@ -19,6 +21,12 @@ export const loginService = async ({
 
   if (!isCorrect) throw new Error('Check credentials and try again')
 
-  const { password: userPassword, roleId, ...userData } = existingUser
-  return userData as UserNonSensitive
+  const token = signToken(existingUser.id)
+
+  const data = {
+    ...existingUser,
+    token
+  }
+
+  return data as UserWithToken
 }
