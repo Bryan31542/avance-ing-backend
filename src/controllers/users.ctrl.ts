@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import {
   createUser,
+  deleteUser,
   getOneUser,
   getUsers,
   updateUser
@@ -49,6 +50,20 @@ export const usersPut = async (
     const { id } = params
     const updatedUser = await updateUser(id, body)
     return res.json(updatedUser)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Something went wrong' })
+  }
+}
+
+export const usersDelete = async (
+  { params }: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { id } = params
+    const deletedUser = await deleteUser(id)
+    return res.json(deletedUser)
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: 'Something went wrong' })

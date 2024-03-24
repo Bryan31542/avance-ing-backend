@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
 import {
+  usersDelete,
   usersGet,
   usersGetOne,
   usersPost,
@@ -16,5 +17,7 @@ router.get('/:id', usersGetOne)
 router.post('/', usersPost)
 
 router.put('/:id', usersPut)
+
+router.delete('/:id', usersDelete)
 
 export default router

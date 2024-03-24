@@ -47,3 +47,19 @@ export const updateUser = async (
   const { password, roleId, ...userData } = updatedUser
   return userData as UserNonSensitive
 }
+
+export const deleteUser = async (
+  id: string
+): Promise<UserNonSensitive | null> => {
+  const deletedUser = await prisma.user.delete({
+    where: { id },
+    include: { role: true }
+  })
+
+  if (deletedUser === null) {
+    return null
+  }
+
+  const { password, roleId, ...userData } = deletedUser
+  return userData as UserNonSensitive
+}
