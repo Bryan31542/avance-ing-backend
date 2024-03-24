@@ -43,3 +43,13 @@ export const roleExistsById = async (roleId: string): Promise<void> => {
     throw new Error('Role not found')
   }
 }
+
+export const userExistsById = async (userId: string): Promise<void> => {
+  const existingUser = await prisma.user.findUnique({
+    where: { id: userId }
+  })
+
+  if (existingUser === null || existingUser === undefined) {
+    throw new Error('User not found')
+  }
+}
