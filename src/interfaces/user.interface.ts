@@ -9,7 +9,6 @@ export interface User extends Auth {
   role: Role
 }
 
-export type UserWithoutId = Omit<User, 'id'>
 export type NewUser = Omit<User, 'id' | 'role'>
 export type UserNonSensitive = Omit<User, 'password' | 'roleId'>
 

@@ -8,6 +8,10 @@ export const signToken = (id: string): string => {
 }
 
 export const verifyToken = (jwt: string): boolean => {
-  const isValid = Boolean(verify(jwt, JWT_SECRET) as JwtPayload)
-  return isValid
+  try {
+    const isValid = Boolean(verify(jwt, JWT_SECRET) as JwtPayload)
+    return isValid
+  } catch (error) {
+    return false
+  }
 }

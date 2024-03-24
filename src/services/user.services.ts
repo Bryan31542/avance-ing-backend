@@ -35,23 +35,17 @@ export const getOneUser = async (
   return userData as UserNonSensitive
 }
 
-export const createUser = async (user: NewUser): Promise<NewUser | string> => {
-  const { email } = user
-
-  // check if the user with the specified email already exists
-  const existingUser = await prisma.user.findUnique({
-    where: { email }
-  })
-
-  if (existingUser !== null) throw new Error('User already exists')
-
+export const createUser = async (
+  user: NewUser
+): Promise<UserNonSensitive | string> => {
   const passwordHash = await encrypt(user.password)
 
   const newUser = await prisma.user.create({
     data: { ...user, password: passwordHash }
   })
 
-  return newUser as NewUser
+  const { password, roleId, ...userData } = newUser
+  return userData as UserNonSensitive
 }
 
 export const updateUser = async (
