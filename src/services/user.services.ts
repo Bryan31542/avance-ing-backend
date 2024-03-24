@@ -29,3 +29,21 @@ export const createUser = async (user: NewUser): Promise<NewUser> => {
   const newUser = await prisma.user.create({ data: user })
   return newUser as NewUser
 }
+
+export const updateUser = async (
+  id: string,
+  user: NewUser
+): Promise<UserNonSensitive | null> => {
+  const updatedUser = await prisma.user.update({
+    where: { id },
+    data: user,
+    include: { role: true }
+  })
+
+  if (updatedUser === null) {
+    return null
+  }
+
+  const { password, roleId, ...userData } = updatedUser
+  return userData as UserNonSensitive
+}

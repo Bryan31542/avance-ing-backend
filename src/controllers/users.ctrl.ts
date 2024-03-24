@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
-import { createUser, getOneUser, getUsers } from '../services/user.services'
+import {
+  createUser,
+  getOneUser,
+  getUsers,
+  updateUser
+} from '../services/user.services'
 
 export const usersGet = async (
   _req: Request,
@@ -30,6 +35,20 @@ export const usersPost = async (
   try {
     const newUser = await createUser(body)
     return res.json(newUser)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Something went wrong' })
+  }
+}
+
+export const usersPut = async (
+  { params, body }: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { id } = params
+    const updatedUser = await updateUser(id, body)
+    return res.json(updatedUser)
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: 'Something went wrong' })
