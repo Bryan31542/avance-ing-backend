@@ -15,22 +15,18 @@ datasource db {
 
 // user 
 model User {
-  id        String   @id @default(cuid())
-  name      String?
-  password  String
-  username  String   @unique
-  email     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role      Role     @relation(fields: [roleId], references: [id])
-  roleId    String
+  id       String  @id @default(cuid())
+  name     String?
+  username String  @unique
+  email    String  @unique
+  password String
+  role     Role    @relation(fields: [roleId], references: [id])
+  roleId   String
 }
 
 // role
 model Role {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  users     User[]
+  id    String @id @default(cuid())
+  name  String
+  users User[]
 }

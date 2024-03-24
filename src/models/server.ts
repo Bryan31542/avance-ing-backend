@@ -1,7 +1,7 @@
 import express, { Application } from 'express'
 import cors from 'cors'
-import * as userRoute from '../routes/users'
-import * as roleRoute from '../routes/roles'
+import * as userRoute from '../routes/users.routes'
+import * as roleRoute from '../routes/roles.routes'
 
 class Server {
   public app: Application
