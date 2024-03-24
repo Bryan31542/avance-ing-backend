@@ -1,11 +1,10 @@
+import { Auth } from './auth.interface'
 import { Role } from './role.interface'
 
-export interface User {
+export interface User extends Auth {
   id: string
   name: string
-  username: string
   email: string
-  password: string
   roleId: string
   role: Role
 }
