@@ -1,8 +1,17 @@
 import { prisma } from '../../prisma/db'
 import { NewUser, UserNonSensitive } from '../interfaces/user.interface'
 
-export const getUsers = async (): Promise<UserNonSensitive[]> => {
-  const users = await prisma.user.findMany({ include: { role: true } })
+export const getUsers = async (
+  skip: number,
+  take: number
+): Promise<UserNonSensitive[]> => {
+  const validSkip = skip > 0 ? skip : 1
+  const validTake = take > 0 ? take : 10
+  const users = await prisma.user.findMany({
+    include: { role: true },
+    skip: validSkip,
+    take: validTake
+  })
   return users.map(
     ({ password, roleId, ...userData }) => userData
   ) as UserNonSensitive[]

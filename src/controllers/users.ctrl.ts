@@ -8,10 +8,12 @@ import {
 } from '../services/user.services'
 
 export const usersGet = async (
-  _req: Request,
+  { query }: Request,
   res: Response
 ): Promise<Response> => {
-  const users = await getUsers()
+  const { skip, take } = query
+
+  const users = await getUsers(Number(skip), Number(take))
   return res.json(users)
 }
 
