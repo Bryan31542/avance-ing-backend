@@ -1,5 +1,6 @@
 import express, { Application } from 'express'
 import cors from 'cors'
+import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import * as userRoute from '../routes/users.routes'
 import * as roleRoute from '../routes/roles.routes'
@@ -29,6 +30,9 @@ class Server {
   private middlewares (): void {
     // CORS
     this.app.use(cors())
+
+    // Morgan
+    this.app.use(morgan('dev'))
 
     // Parse and read body
     this.app.use(express.json())
