@@ -15,9 +15,9 @@ export const login = async (
     })
 
     return res.json(response)
-  } catch (error) {
-    console.error(error)
-    return res.status(500).json({ error: 'Something went wrong' })
+  } catch (error: any) {
+    console.error(error.message)
+    return res.status(401).json(error.message)
   }
 }
 

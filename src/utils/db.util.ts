@@ -18,7 +18,9 @@ export const roleExists = async (role: string): Promise<void> => {
     where: { name: role }
   })
 
-  if (existingRole !== null || existingRole !== undefined) {
+  console.log(existingRole)
+
+  if (existingRole !== null && existingRole !== undefined) {
     throw new Error('Role already exists')
   }
 }

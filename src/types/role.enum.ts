@@ -1,5 +1,9 @@
 export enum RoleName {
   Admin = 'Admin',
   User = 'User',
-  Manager = 'Manager'
+  Manager = 'Manager',
+  Developer = 'Developer',
+  Designer = 'Designer',
+  Tester = 'Tester',
+  DevOps = 'DevOps'
 }
