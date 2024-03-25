@@ -11,9 +11,9 @@ export const usersGet = async (
   { query }: Request,
   res: Response
 ): Promise<Response> => {
-  const { skip, take } = query
+  const { page, pageSize } = query
 
-  const users = await getUsers(Number(skip), Number(take))
+  const users = await getUsers(Number(page), Number(pageSize))
   return res.json(users)
 }
 

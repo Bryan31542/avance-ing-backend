@@ -1,8 +1,9 @@
+import { JwtPayload } from 'jsonwebtoken'
 import { prisma } from '../../prisma/db'
 import { Auth } from '../interfaces/auth.interface'
 import { UserWithToken } from '../interfaces/user.interface'
 import { verify } from '../utils/bcrypt.util'
-import { signToken } from '../utils/jwt.util'
+import { decodeToken, signToken } from '../utils/jwt.util'
 
 export const loginService = async ({
   username,
@@ -29,4 +30,15 @@ export const loginService = async ({
   }
 
   return data as UserWithToken
+}
+
+export const verifyTokenService = async (
+  jwt: string
+): Promise<JwtPayload | null> => {
+  try {
+    const decodedToken = decodeToken(jwt)
+    return decodedToken
+  } catch (error) {
+    throw new Error('Invalid token')
+  }
 }

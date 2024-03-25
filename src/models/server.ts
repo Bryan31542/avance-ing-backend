@@ -29,7 +29,12 @@ class Server {
 
   private middlewares (): void {
     // CORS
-    this.app.use(cors())
+    this.app.use(
+      cors({
+        origin: 'http://localhost:5173',
+        credentials: true
+      })
+    )
 
     // Morgan
     this.app.use(morgan('dev'))

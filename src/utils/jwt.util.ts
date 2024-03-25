@@ -15,3 +15,12 @@ export const verifyToken = (jwt: string): boolean => {
     return false
   }
 }
+
+export const decodeToken = (jwt: string): JwtPayload | null => {
+  try {
+    const decoded = verify(jwt, JWT_SECRET) as JwtPayload
+    return decoded
+  } catch (error) {
+    return null
+  }
+}

@@ -3,15 +3,16 @@ import { NewUser, UserNonSensitive } from '../interfaces/user.interface'
 import { encrypt } from '../utils/bcrypt.util'
 
 export const getUsers = async (
-  skip: number,
-  take: number
+  page: number,
+  pageSize: number
 ): Promise<UserNonSensitive[]> => {
-  const validSkip = skip > 0 ? skip : 0
-  const validTake = take > 0 ? take : 10
+  const validPage = page > 0 ? page : 1
+  const validPageSize = pageSize > 0 ? pageSize : 5
+  const skip = (validPage - 1) * validPageSize
   const users = await prisma.user.findMany({
     include: { role: true },
-    skip: validSkip,
-    take: validTake
+    skip,
+    take: validPageSize
   })
   return users.map(
     ({ password, roleId, ...userData }) => userData

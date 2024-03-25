@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
 import { check } from 'express-validator'
-import { login } from '../controllers/auth.ctrl'
+import { login, logout, verifyToken } from '../controllers/auth.ctrl'
 import { validateFields } from '../middleware/validator'
 import { usersPost } from '../controllers/users.ctrl'
 import { emailExists, roleExistsById, usernameExists } from '../utils/db.util'
@@ -34,5 +34,9 @@ router.post(
   ],
   usersPost
 )
+
+router.get('/verify', validateFields, verifyToken)
+
+router.get('/logout', validateFields, logout)
 
 export default router
