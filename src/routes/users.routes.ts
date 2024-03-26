@@ -6,7 +6,8 @@ import {
   usersGetOne,
   usersPost,
   usersPut,
-  deleteRoleToUser
+  deleteRoleToUser,
+  addRoleUser
 } from '../controllers/users.ctrl'
 import { checkSession } from '../middleware/session'
 import { validateFields } from '../middleware/validator'
@@ -34,6 +35,8 @@ router.delete(
   [checkSession, validateFields],
   deleteRoleToUser
 )
+
+router.get('/:id/roles/:roleId', [checkSession, validateFields], addRoleUser)
 
 router.post(
   '/',

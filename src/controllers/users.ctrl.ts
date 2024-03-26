@@ -5,7 +5,8 @@ import {
   deleteUser,
   getOneUser,
   getUsers,
-  updateUser
+  updateUser,
+  addRoleToUser
 } from '../services/user.services'
 
 export const usersGet = async (
@@ -80,6 +81,20 @@ export const deleteRoleToUser = async (
   try {
     const { id, roleId } = params
     const updatedUser = await removeRoleToUser(id, roleId)
+    return res.json(updatedUser)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Something went wrong' })
+  }
+}
+
+export const addRoleUser = async (
+  { params }: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { id, roleId } = params
+    const updatedUser = await addRoleToUser(id, roleId)
     return res.json(updatedUser)
   } catch (error) {
     console.error(error)

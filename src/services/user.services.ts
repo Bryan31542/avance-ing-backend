@@ -116,3 +116,25 @@ export const removeRoleToUser = async (
   const { password, ...userData } = user
   return userData as UserNonSensitive
 }
+
+export const addRoleToUser = async (
+  id: string,
+  roleId: string
+): Promise<UserNonSensitive | null> => {
+  const user = await prisma.user.update({
+    where: { id },
+    data: {
+      roles: {
+        connect: { id: roleId }
+      }
+    },
+    include: { roles: true }
+  })
+
+  if (user === null) {
+    return null
+  }
+
+  const { password, ...userData } = user
+  return userData as UserNonSensitive
+}
