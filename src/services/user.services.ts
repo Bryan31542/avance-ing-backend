@@ -10,13 +10,13 @@ export const getUsers = async (
   const validPageSize = pageSize > 0 ? pageSize : 5
   const skip = (validPage - 1) * validPageSize
   const users = await prisma.user.findMany({
-    include: { role: true },
+    include: { roles: true },
     skip,
     take: validPageSize
   })
-  return users.map(
-    ({ password, roleId, ...userData }) => userData
-  ) as UserNonSensitive[]
+  return users.map(({ password, ...userData }) => ({
+    ...userData
+  })) as UserNonSensitive[]
 }
 
 export const getOneUser = async (
@@ -24,7 +24,7 @@ export const getOneUser = async (
 ): Promise<UserNonSensitive | null> => {
   const user = await prisma.user.findUnique({
     where: { id },
-    include: { role: true }
+    include: { roles: true }
   })
 
   if (user === null) {
@@ -32,39 +32,51 @@ export const getOneUser = async (
   }
 
   // Omit the password field and return the user data
-  const { password, roleId, ...userData } = user
+  const { password, ...userData } = user
   return userData as UserNonSensitive
 }
 
 export const createUser = async (
   user: NewUser
 ): Promise<UserNonSensitive | string> => {
+  console.log(user)
   const passwordHash = await encrypt(user.password)
 
   const newUser = await prisma.user.create({
-    data: { ...user, password: passwordHash }
+    data: {
+      ...user,
+      password: passwordHash,
+      roles: {
+        connect: user.roles.map(role => ({ id: role.id }))
+      }
+    }
   })
 
-  const { password, roleId, ...userData } = newUser
-  return userData as UserNonSensitive
+  const { password, id, ...userDataWithoutPassword } = newUser
+
+  return userDataWithoutPassword as UserNonSensitive
 }
 
 export const updateUser = async (
   id: string,
   user: NewUser
 ): Promise<UserNonSensitive | null> => {
+  const { roles, ...userData } = user
   const updatedUser = await prisma.user.update({
     where: { id },
-    data: user,
-    include: { role: true }
+    data: {
+      ...userData,
+      roles: { set: roles } // Set the user's roles to the provided role IDs
+    },
+    include: { roles: true }
   })
 
   if (updatedUser === null) {
     return null
   }
 
-  const { password, roleId, ...userData } = updatedUser
-  return userData as UserNonSensitive
+  const { password, ...userDataWithoutPassword } = updatedUser
+  return userDataWithoutPassword as UserNonSensitive
 }
 
 export const deleteUser = async (
@@ -72,13 +84,35 @@ export const deleteUser = async (
 ): Promise<UserNonSensitive | null> => {
   const deletedUser = await prisma.user.delete({
     where: { id },
-    include: { role: true }
+    include: { roles: true }
   })
 
   if (deletedUser === null) {
     return null
   }
 
-  const { password, roleId, ...userData } = deletedUser
+  const { password, ...userData } = deletedUser
+  return userData as UserNonSensitive
+}
+
+export const removeRoleToUser = async (
+  id: string,
+  roleId: string
+): Promise<UserNonSensitive | null> => {
+  const user = await prisma.user.update({
+    where: { id },
+    data: {
+      roles: {
+        disconnect: { id: roleId }
+      }
+    },
+    include: { roles: true }
+  })
+
+  if (user === null) {
+    return null
+  }
+
+  const { password, ...userData } = user
   return userData as UserNonSensitive
 }

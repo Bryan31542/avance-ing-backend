@@ -12,7 +12,7 @@ export const loginService = async ({
   // check if the user with the specified email already exists
   const existingUser = await prisma.user.findUnique({
     where: { username },
-    include: { role: true }
+    include: { roles: true }
   })
 
   if (existingUser === null) throw new Error('User not found')

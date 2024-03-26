@@ -5,12 +5,11 @@ export interface User extends Auth {
   id: string
   name: string
   email: string
-  roleId: string
-  role: Role
+  roles: Role[]
 }
 
-export type NewUser = Omit<User, 'id' | 'role'>
-export type UserNonSensitive = Omit<User, 'password' | 'roleId'>
+export type NewUser = Omit<User, 'id'> & { roles: string[] }
+export type UserNonSensitive = Omit<User, 'password'>
 
 // add token to the User interface using intersection and UserNonSensitive
 export type UserWithToken = User & { token: string } & UserNonSensitive

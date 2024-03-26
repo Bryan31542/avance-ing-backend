@@ -5,17 +5,13 @@ import {
   usersGet,
   usersGetOne,
   usersPost,
-  usersPut
+  usersPut,
+  deleteRoleToUser
 } from '../controllers/users.ctrl'
 import { checkSession } from '../middleware/session'
 import { validateFields } from '../middleware/validator'
 import { check } from 'express-validator'
-import {
-  emailExists,
-  roleExistsById,
-  userExistsById,
-  usernameExists
-} from '../utils/db.util'
+import { emailExists, userExistsById, usernameExists } from '../utils/db.util'
 
 const router = Router()
 
@@ -32,6 +28,13 @@ router.get(
   usersGetOne
 )
 
+// add role to user
+router.delete(
+  '/:id/roles/:roleId',
+  [checkSession, validateFields],
+  deleteRoleToUser
+)
+
 router.post(
   '/',
   [
@@ -40,9 +43,6 @@ router.post(
     check('email').custom(emailExists),
     check('username').custom(usernameExists),
     check('username', 'username is required').not().isEmpty(),
-    check('roleId', 'roleId is required').not().isEmpty(),
-    check('roleId', 'is not a valid id').isUUID(),
-    check('roleId').custom(roleExistsById),
     check('password', 'password is required').not().isEmpty(),
     validateFields
   ],

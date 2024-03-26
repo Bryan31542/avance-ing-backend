@@ -4,7 +4,7 @@ import { check } from 'express-validator'
 import { login, logout, verifyToken } from '../controllers/auth.ctrl'
 import { validateFields } from '../middleware/validator'
 import { usersPost } from '../controllers/users.ctrl'
-import { emailExists, roleExistsById, usernameExists } from '../utils/db.util'
+import { emailExists, usernameExists } from '../utils/db.util'
 
 const router = Router()
 
@@ -26,9 +26,6 @@ router.post(
     check('email').custom(emailExists),
     check('username').custom(usernameExists),
     check('username', 'username is required').not().isEmpty(),
-    check('roleId', 'roleId is required').not().isEmpty(),
-    check('roleId', 'is not a valid id').isUUID(),
-    check('roleId').custom(roleExistsById),
     check('password', 'password is required').not().isEmpty(),
     validateFields
   ],

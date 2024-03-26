@@ -15,18 +15,34 @@ datasource db {
 
 // user 
 model User {
-  id       String @id @default(uuid())
+  id       String     @id @default(uuid())
   name     String
-  username String @unique
-  email    String @unique
+  username String     @unique
+  email    String     @unique
   password String
-  role     Role   @relation(fields: [roleId], references: [id])
-  roleId   String
+  roles    Role[]
+  UserRole UserRole[]
 }
 
 // role
 model Role {
-  id    String @id @default(uuid())
-  name  String @unique
-  users User[]
+  id       String     @id @default(uuid())
+  name     String     @unique
+  users    User[]
+  UserRole UserRole[]
+}
+
+// user role many to many
+model UserRole {
+  id     String @id @default(uuid())
+  userId String
+  roleId String
+
+  user User @relation(fields: [userId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
+
+  // define foreign key constraints
+  @@unique([userId, roleId])
+  @@index([roleId])
+  @@index([userId])
 }
