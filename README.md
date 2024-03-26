@@ -35,24 +35,28 @@ ENCODING_SECRET='my-secret-code'
 DATABASE_URL='postgres://bryan:random123@localhost:5432/avance'
 ```
 
-The next step is to run a script that will create a `role` and `user`. So we can access to our system with that information. 
+### Installing dependencies
+
+Run the following command to install all the required packages to use our backend
+
+```
+npm install
+```
+
+
+### Running seed
+
+We are almost done, the next step is to run a script that will create a `role` and `user`. So we can access to our system with that information. 
 
 - username: admin
 - password: admin
 
-### Running seed
 
 ```
 npx prisma db seed
 ```
 
-### Installing dependencies
 
-We are almost done, run the following command to install all the required packages
-
-```
-npm install
-```
 
 ### Running the backend
 
