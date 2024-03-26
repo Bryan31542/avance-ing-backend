@@ -17,7 +17,9 @@ async function main (): Promise<void> {
       username: 'admin',
       email: 'admin@test.com',
       password: passwordHash,
-      roleId: adminRole.id
+      roles: {
+        connect: { id: adminRole.id } // Connect the user to the admin role
+      }
     }
   })
 }
