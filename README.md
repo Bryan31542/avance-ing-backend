@@ -72,3 +72,20 @@ And finally run the backend using:
 ```
 npm run dev
 ```
+--- 
+
+## NOTES 
+
+Only the following roles are allowed to be created:
+
+```
+export enum RoleName {
+  Admin = 'Admin',
+  User = 'User',
+  Manager = 'Manager',
+  Developer = 'Developer',
+  Designer = 'Designer',
+  Tester = 'Tester',
+  DevOps = 'DevOps'
+}
+```
