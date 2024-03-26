@@ -13,7 +13,7 @@ class Server {
   public rolesPath: string
   public authPath: string
 
-  constructor () {
+  constructor() {
     this.app = express()
     this.port = Number(process.env.PORT)
     this.usersPath = '/api/users'
@@ -27,7 +27,7 @@ class Server {
     this.routes()
   }
 
-  private middlewares (): void {
+  private middlewares(): void {
     // CORS
     this.app.use(
       cors({
@@ -49,15 +49,15 @@ class Server {
     this.app.use(express.static('public'))
   }
 
-  private routes (): void {
+  private routes(): void {
     this.app.use(this.usersPath, userRoute.default)
     this.app.use(this.rolesPath, roleRoute.default)
     this.app.use(this.authPath, authRoute.default)
   }
 
-  public listen (): void {
+  public listen(): void {
     this.app.listen(this.port, () => {
-      console.log(`Server running on port ${Number(this.port)}`)
+      ;`Server running on port ${Number(this.port)}`
     })
   }
 }

@@ -6,8 +6,6 @@ export const emailExists = async (email: string): Promise<void> => {
     where: { email }
   })
 
-  console.log(existingUser)
-
   if (existingUser !== null && existingUser !== undefined) {
     throw new Error('Email already exists')
   }
@@ -17,8 +15,6 @@ export const roleExists = async (role: string): Promise<void> => {
   const existingRole = await prisma.role.findUnique({
     where: { name: role }
   })
-
-  console.log(existingRole)
 
   if (existingRole !== null && existingRole !== undefined) {
     throw new Error('Role already exists')

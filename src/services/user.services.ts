@@ -39,7 +39,6 @@ export const getOneUser = async (
 export const createUser = async (
   user: NewUser
 ): Promise<UserNonSensitive | string> => {
-  console.log(user)
   const passwordHash = await encrypt(user.password)
 
   const newUser = await prisma.user.create({
