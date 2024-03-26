@@ -43,6 +43,13 @@ Run the following command to install all the required packages to use our backen
 npm install
 ```
 
+### Running migrations 
+
+Now we have to run the following command so we can create the tables of our database
+
+```
+npm run migrate
+```
 
 ### Running seed
 
